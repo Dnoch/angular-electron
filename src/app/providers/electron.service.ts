@@ -10,6 +10,7 @@ import * as store from 'electron-store';
 import * as fsJetpack from 'fs-jetpack';
 import * as imageDownloader from 'image-downloader';
 import * as moment from 'moment';
+import * as tiffJs from 'tiff.js';
 import { request } from 'request';
 
 @Injectable()
@@ -25,6 +26,7 @@ export class ElectronService {
   imageDownloader: any;
   moment: any;
   version: any;
+  tiffJs: any;
   request: typeof request;
 
   constructor() {
@@ -41,6 +43,7 @@ export class ElectronService {
       this.moment = window.require('moment');
       this.version = require('../../../package.json').version;
       this.request = window.require('request');
+      this.tiffJs = window.require('tiff.js')
     }
   }
 

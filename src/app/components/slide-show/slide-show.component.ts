@@ -31,7 +31,38 @@ export class SlideShowComponent implements OnInit {
   constructor(private apiService: ApiService, private electron: ElectronService) {
     console.log('slide active', this.newActive)
     console.log('slides', this.slides)
+    this.electron.tiffJs.initialize({ TOTAL_MEMORY: 200000000 }) // 100MB
 
+
+
+  }
+
+
+  tiff(path) {
+
+    // var filename = process.argv[2];
+    var input = this.electron.fs.readFileSync(path);
+    var image = new this.electron.tiffJs({ buffer: input });
+    var canvas = image.toCanvas();
+    var el = document.querySelector('#tiff');
+    el.appendChild(canvas);
+    console.log(image)
+  }
+
+  ngOnInit() {
+
+    const images = [
+      '/home/stuart/Documents/sample data/tiff/africansavannah2_1530702787.tif',
+      '/home/stuart/Documents/sample data/tiff/wintertrees7_1530702818.tif',
+      '/home/stuart/Downloads/Backdrops/Hi Res Tifs/atlantaskyline.tif',
+      '/home/stuart/Downloads/Backdrops/Hi Res Tifs/beachboards1.tif',
+      '/home/stuart/Downloads/Backdrops/Hi Res Tifs/brickwall1.tif'
+
+    ]
+
+    for (let path of images) {
+      this.tiff(path)
+    }
   }
 
 
@@ -96,8 +127,7 @@ export class SlideShowComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-  }
+
 
   activeRentals(active) {
     const slides = this.slideOrders.sort((a, b) => a.position - b.position);
