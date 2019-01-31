@@ -1,5 +1,6 @@
-<div class="slide-show" id="tiff">
+<div class="slide-show">
   <div #slideMessage class="slide-message">Press 'Esc' to exit full screen mode</div>
+  <div id="tiff"></div>
   <!-- <div *ngFor="let slide of slides" [hidden]="!slide.show">
     <img *ngIf="slide.type == 'image'" src="{{ orderType === 'test' ? slide.file : 'file:///' + slidePath + slide.file }}"
       draggable="false">
@@ -7,4 +8,7 @@
       <source src="{{ orderType === 'test' ? slide.file : 'file:///' + slidePath + slide.file }}" type="video/mp4">
     </video>
   </div> -->
+  <div>
+    <button *ngFor="let image of images" (click)="tiff(image)">{{ getFilenameFromUrl(image) }}</button>
+  </div>
 </div>

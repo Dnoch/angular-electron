@@ -28,41 +28,58 @@ export class SlideShowComponent implements OnInit {
   @Input() slideOrders: any;
   @Input() fullScreen: any;
 
+  images = [
+    '/home/stuart/Documents/sample data/tiff/africansavannah2_1530702787.tif',
+    '/home/stuart/Documents/sample data/tiff/wintertrees7_1530702818.tif',
+    '/home/stuart/Downloads/Backdrops/Hi Res Tifs/atlantaskyline.tif',
+    '/home/stuart/Downloads/Backdrops/Hi Res Tifs/beachboards1.tif',
+    '/home/stuart/Downloads/Backdrops/Hi Res Tifs/brickwall1.tif'
+
+  ]
+
   constructor(private apiService: ApiService, private electron: ElectronService) {
     console.log('slide active', this.newActive)
     console.log('slides', this.slides)
-    this.electron.tiffJs.initialize({ TOTAL_MEMORY: 200000000 }) // 100MB
+
 
 
 
   }
 
+  getFilenameFromUrl(url) {
+    return url.substring(url.lastIndexOf('/') + 1);
+  }
+
+
 
   tiff(path) {
+    // this.electron.tiffJs.close()
+    this.electron.tiffJs.initialize({ TOTAL_MEMORY: 100000000 }) // 100MB
 
     // var filename = process.argv[2];
     var input = this.electron.fs.readFileSync(path);
     var image = new this.electron.tiffJs({ buffer: input });
     var canvas = image.toCanvas();
+    canvas.style.width = '100%';
     var el = document.querySelector('#tiff');
+    while (el.firstChild) {
+      el.removeChild(el.firstChild);
+    }
     el.appendChild(canvas);
     console.log(image)
   }
 
+
+
   ngOnInit() {
 
-    const images = [
-      '/home/stuart/Documents/sample data/tiff/africansavannah2_1530702787.tif',
-      '/home/stuart/Documents/sample data/tiff/wintertrees7_1530702818.tif',
-      '/home/stuart/Downloads/Backdrops/Hi Res Tifs/atlantaskyline.tif',
-      '/home/stuart/Downloads/Backdrops/Hi Res Tifs/beachboards1.tif',
-      '/home/stuart/Downloads/Backdrops/Hi Res Tifs/brickwall1.tif'
 
-    ]
 
-    for (let path of images) {
-      this.tiff(path)
-    }
+    this.tiff(this.images[0])
+
+    // for (let path of images) {
+    //   this.tiff(path)
+    // }
   }
 
 
